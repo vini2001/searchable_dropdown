@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import '../../dropdown_search.dart';
 
 class PopupProps<T> {
-  final TextStyle? textStyle;
+  ///popup title
   final Widget? title;
+
+  ///the search box will be shown if true, hidden otherwise
   final bool showSearchBox;
 
   final DropdownSearchPopupItemBuilder<T>? itemBuilder;
@@ -21,7 +23,7 @@ class PopupProps<T> {
   /// callback executed before applying value change
   ///delay before searching, change it to Duration(milliseconds: 0)
   ///if you do not use online search
-  final Duration? searchDelay;
+  final Duration searchDelay;
 
   ///called when popup is dismissed
   final VoidCallback? onDismissed;
@@ -81,7 +83,6 @@ class PopupProps<T> {
     this.mode = Mode.MENU,
     this.fit = FlexFit.tight,
     this.title,
-    this.textStyle,
     this.showSearchBox = false,
     this.bottomSheetProps = const BottomSheetProps(),
     this.dialogProps = const DialogProps(),
@@ -91,7 +92,7 @@ class PopupProps<T> {
     this.scrollbarProps = const ScrollbarProps(),
     this.listViewProps = const ListViewProps(),
     this.favoriteItemProps = const FavoriteItemProps(),
-    this.searchDelay,
+    this.searchDelay = const Duration(seconds: 1),
     this.onDismissed,
     this.emptyBuilder,
     this.itemBuilder,
@@ -108,14 +109,13 @@ class PopupProps<T> {
   const PopupProps.menu({
     this.title,
     this.fit = FlexFit.tight,
-    this.textStyle,
     this.showSearchBox = false,
     this.menuProps = const MenuProps(),
     this.searchFieldProps = const TextFieldProps(),
     this.scrollbarProps = const ScrollbarProps(),
     this.listViewProps = const ListViewProps(),
     this.favoriteItemProps = const FavoriteItemProps(),
-    this.searchDelay,
+    this.searchDelay = const Duration(seconds: 1),
     this.onDismissed,
     this.emptyBuilder,
     this.itemBuilder,
@@ -133,7 +133,6 @@ class PopupProps<T> {
         this.modalBottomSheetProps = const ModalBottomSheetProps();
 
   const PopupProps.dialog({
-    this.textStyle,
     this.fit = FlexFit.tight,
     this.title,
     this.showSearchBox = false,
@@ -142,7 +141,7 @@ class PopupProps<T> {
     this.scrollbarProps = const ScrollbarProps(),
     this.listViewProps = const ListViewProps(),
     this.favoriteItemProps = const FavoriteItemProps(),
-    this.searchDelay,
+    this.searchDelay = const Duration(seconds: 1),
     this.onDismissed,
     this.emptyBuilder,
     this.itemBuilder,
@@ -164,7 +163,6 @@ class PopupProps<T> {
         this.modalBottomSheetProps = const ModalBottomSheetProps();
 
   const PopupProps.bottomSheet({
-    this.textStyle,
     this.fit = FlexFit.tight,
     this.title,
     this.showSearchBox = false,
@@ -173,7 +171,7 @@ class PopupProps<T> {
     this.scrollbarProps = const ScrollbarProps(),
     this.listViewProps = const ListViewProps(),
     this.favoriteItemProps = const FavoriteItemProps(),
-    this.searchDelay,
+    this.searchDelay = const Duration(seconds: 1),
     this.onDismissed,
     this.emptyBuilder,
     this.itemBuilder,
@@ -192,7 +190,6 @@ class PopupProps<T> {
 
   const PopupProps.modalBottomSheet({
     this.title,
-    this.textStyle,
     this.fit = FlexFit.tight,
     this.showSearchBox = false,
     this.modalBottomSheetProps = const ModalBottomSheetProps(),
@@ -200,7 +197,7 @@ class PopupProps<T> {
     this.scrollbarProps = const ScrollbarProps(),
     this.listViewProps = const ListViewProps(),
     this.favoriteItemProps = const FavoriteItemProps(),
-    this.searchDelay,
+    this.searchDelay = const Duration(seconds: 1),
     this.onDismissed,
     this.emptyBuilder,
     this.itemBuilder,
@@ -231,6 +228,8 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
   ///widget used to validate items in multiSelection mode
   final ValidationMultiSelectionBuilder<T>? validationWidgetBuilder;
 
+  final TextDirection textDirection;
+
   const PopupPropsMultiSelection._({
     super.mode = Mode.MENU,
     super.fit = FlexFit.tight,
@@ -238,7 +237,6 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     super.isFilterOnline,
     super.itemBuilder,
     super.disabledItemFn,
-    super.textStyle,
     super.showSearchBox,
     super.searchFieldProps = const TextFieldProps(),
     super.favoriteItemProps = const FavoriteItemProps(),
@@ -261,11 +259,11 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     this.onItemRemoved,
     this.selectionWidget,
     this.validationWidgetBuilder,
+    this.textDirection = TextDirection.ltr,
   }) : super._();
 
   const PopupPropsMultiSelection.menu({
     super.title,
-    super.textStyle,
     super.fit = FlexFit.tight,
     super.showSearchBox = false,
     super.searchFieldProps = const TextFieldProps(),
@@ -289,11 +287,11 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     this.onItemRemoved,
     this.selectionWidget,
     this.validationWidgetBuilder,
+    this.textDirection = TextDirection.ltr,
   }) : super.menu();
 
   const PopupPropsMultiSelection.dialog({
     super.title,
-    super.textStyle,
     super.fit = FlexFit.tight,
     super.showSearchBox = false,
     super.searchFieldProps = const TextFieldProps(),
@@ -321,11 +319,11 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     this.onItemRemoved,
     this.selectionWidget,
     this.validationWidgetBuilder,
+    this.textDirection = TextDirection.ltr,
   }) : super.dialog();
 
   const PopupPropsMultiSelection.bottomSheet({
     super.title,
-    super.textStyle,
     super.fit = FlexFit.tight,
     super.showSearchBox = false,
     super.searchFieldProps = const TextFieldProps(),
@@ -349,6 +347,7 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     this.onItemRemoved,
     this.selectionWidget,
     this.validationWidgetBuilder,
+    this.textDirection = TextDirection.ltr,
   }) : super.bottomSheet();
 
   const PopupPropsMultiSelection.modalBottomSheet({
@@ -357,7 +356,6 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     super.fit = FlexFit.tight,
     super.itemBuilder,
     super.disabledItemFn,
-    super.textStyle,
     super.showSearchBox,
     super.searchFieldProps = const TextFieldProps(),
     super.favoriteItemProps = const FavoriteItemProps(),
@@ -377,6 +375,7 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
     this.onItemRemoved,
     this.selectionWidget,
     this.validationWidgetBuilder,
+    this.textDirection = TextDirection.ltr,
   }) : super.modalBottomSheet();
 
   PopupPropsMultiSelection.from(PopupProps<T> popupProps)
@@ -398,7 +397,6 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
           searchFieldProps: popupProps.searchFieldProps,
           showSearchBox: popupProps.showSearchBox,
           showSelectedItems: popupProps.showSelectedItems,
-          textStyle: popupProps.textStyle,
           mode: popupProps.mode,
           bottomSheetProps: popupProps.bottomSheetProps,
           dialogProps: popupProps.dialogProps,
@@ -410,5 +408,6 @@ class PopupPropsMultiSelection<T> extends PopupProps<T> {
           onItemRemoved: null,
           selectionWidget: null,
           validationWidgetBuilder: null,
+          textDirection: TextDirection.ltr,
         );
 }
